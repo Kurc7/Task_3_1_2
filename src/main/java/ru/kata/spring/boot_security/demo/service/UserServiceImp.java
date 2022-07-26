@@ -1,45 +1,59 @@
 package ru.kata.spring.boot_security.demo.service;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.Dao.UserDaoImp;
+import ru.kata.spring.boot_security.demo.Dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.User;
-
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class UserServiceImp implements UserService {
 
-    private final UserDaoImp userDaoImp;
+    private final UserDao userDao;
+    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImp(UserDaoImp userDaoImp) {
-        this.userDaoImp = userDaoImp;
+    @Autowired
+    public UserServiceImp(UserDao userDao, RoleService roleService, PasswordEncoder passwordEncoder) {
+        this.userDao = userDao;
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userDaoImp.getAllUsers();
+        return userDao.getAllUsers();
     }
 
+    @Transactional
     @Override
-    public User getUser(long id) {
-        return userDaoImp.getUser(id);
+    public void saveUser(User user, String[] roles, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRoles(Arrays.stream(roles).map(roleService::findByName).collect(Collectors.toList()));
+        userDao.saveUser(user);
     }
 
     @Override
     public void removeUser(long id) {
-        userDaoImp.removeUser(id);
+        userDao.removeUser(id);
     }
 
     @Override
-    public void updateUser(long id, User user) {
-        userDaoImp.updateUser(id, user);
+    public User getUser(long id) {
+        return userDao.getUser(id);
     }
 
     @Override
-    public void saveUser(User user) {
-        userDaoImp.saveUser(user);
+    public User getUserByName(String name) {
+        return userDao.getUserByName(name);
+    }
+
+    @Override
+    public void updateUser(int id, String name, String lastName, String email, String password) {
+        userDao.updateUser(id, name, lastName, email, password);
     }
 }

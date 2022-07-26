@@ -1,11 +1,49 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>All users</title>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
-
-
+<table>
+    <caption>User administration</caption>
+    <thead>
+    <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Email</th>
+        <th>Роли</th>
+        <th>Редактирование</th>
+        <th>Удаление</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="user : ${users}">
+        <tr>
+            <th th:text="${user.getName()}">
+            </th>
+            <th th:text="${user.getLastname()}">
+            </th>
+            <th th:text="${user.getEmail()}">
+            </th>
+            <th th:text="${user.roles}">
+            </th>
+            <th>
+                <form th:method="GET" th:action="@{/admin/edit/{id}(id=${user.getId()})}">
+                    <input th:type="submit" th:value="Edit"/>
+                </form>
+            </th>
+            <th>
+                <form th:method="POST" th:action="@{/admin/remove/{id}(id=${user.getId()})}">
+                    <input th:type="submit" th:value="Delete"/>
+                </form>
+            </th>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+<a th:href="@{/admin/new}">Создать пользователя</a>
+<br>
+<a th:href="@{/logout}">Выход</a>
 </body>
 </html>

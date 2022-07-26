@@ -1,31 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html  lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>New user</title>
 </head>
 <body>
-
-
-<form th:method="POST" th:action="@{/users}" th:object="${user}">
-    <label for="firstName">Введите имя: </label>
-    <input type="text" th:field="*{firstName}" id="firstName"/>
-    <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Ошибка</div>
+<form method="post" th:action="@{/admin/new}" th:object="${user}">
+    <span>Name</span>
+    <input type="text" th:field="*{name}" id="name"/>
+    <br>
+    <span>Surname</span>
+    <input type="text" th:field="*{lastname}" id="surname"/>
+    <br>
+    <span>Email</span>
+    <input type="text" th:field="*{email}" id="email"/>
+    <br>
+    <span>Пароль</span>
+    <input type="text" th:field="*{password}" id="password"/>
+    <br>
+    <label for="roles">Сhoose roles: </label>
     <br/>
-
-    <label for="lastName">Введите фамилию: </label>
-    <input type="text" th:field="*{lastName}" id="lastname"/>
+    <select name="rolesList" id="roles" size="2" multiple>
+        <p th:each="userRole: ${roles}">
+            <option th:value="${userRole.name}" th:text="${#strings.substringAfter(userRole.getName(), 'ROLE_')}">role</option>
+        </p>
+    </select>
     <br/>
-    <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">lastname Ошибка</div>
-
-    <label for="email">Введите email: </label>
-    <input type="number" th:field="*{email}" id="email"/>
-    <br/>
-    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Ошибка email</div>
-
-    <input type="submit" value="Добавить нового пользователя"/>
-
+    <input type="submit" value="Создать"/>
 </form>
+<br>
+<a th:href="@{/logout}">Выход</a>
 </body>
 </html>

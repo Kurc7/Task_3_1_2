@@ -1,26 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit user</title>
+    <title>Редактирование</title>
 </head>
 <body>
-
-<form th:method="PATCH" th:action="@{/users/{id}(id=${user.getId()})}" th:object="${user}">
-    <label for="firstName">Введите имя: </label>
-    <input type="text" th:field="*{firstName}" id="firstName"/>
-    <br/>
-
-    <label for="lastName">Введите фамилию: </label>
-    <input type="text" th:field="*{lastName}" id="lastname"/>
-    <br/>
-
-    <label for="email">Введите email: </label>
-    <input type="number" th:field="*{email}" id="email"/>
-    <br/>
-
-    <input type="submit" value="Изменить данные пользователя"/>
+<form method="post" th:action="@{/admin/edit/{id}(id=${user.getId()})}" th:object="${user}">
+    <span>Name</span>
+    <input type="text" th:field="*{name}" id="firstname"/>
+    <br>
+    <span>Surname</span>
+    <input type="text" th:field="*{lastname}" id="lastname"/>
+    <br>
+    <span>Email</span>
+    <input type="text" th:field="*{email}" id="email"/>
+    <br>
+    <input type="submit" value="Изменить"/>
 </form>
+<br>
+<a th:href="@{/logout}">Выход</a>
 </body>
 </html>
