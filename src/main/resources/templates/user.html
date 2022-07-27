@@ -7,19 +7,19 @@
 <body>
 <ul>
     <h4>
-        <li>
-            <div th:utext="${user.getId()}">...</div>
-        </li>
-        <li>
-            <div th:utext="${user.getName()}">...</div>
-        </li>
-        <li>
-            <div th:utext="${user.getLastname()}">...</div>
-        </li>
-        <li>
-            <div th:utext="${user.getEmail()}">...</div>
-        </li>
-        <br/>
+        <span>ID: </span>
+        <div th:utext="${user.getId()}"></div>
+        <br>
+        <span>Имя: </span>
+        <div th:utext="${user.getName()}"></div>
+        <br>
+        <span>Фамилия: </span>
+        <div th:utext="${user.getLastname()}"></div>
+        <br>
+        <span>Email: </span>
+        <div th:utext="${user.getEmail()}"></div>
+        <br>
+        <br>
         <a th:href="@{/logout}">Выход</a>
     </h4>
 </ul>

@@ -29,11 +29,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void updateUser(int id, String name, String lastName, String email, String password) {
-        User user = getUser(id);
-        user.setName(name);
-        user.setLastname(lastName);
-        user.setPassword(password);
+    public void updateUser(User user) {
         entityManager.merge(user);
     }
 

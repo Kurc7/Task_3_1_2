@@ -37,6 +37,7 @@ public class UserServiceImp implements UserService {
         userDao.saveUser(user);
     }
 
+    @Transactional
     @Override
     public void removeUser(long id) {
         userDao.removeUser(id);
@@ -52,8 +53,17 @@ public class UserServiceImp implements UserService {
         return userDao.getUserByName(name);
     }
 
+    @Transactional
     @Override
-    public void updateUser(int id, String name, String lastName, String email, String password) {
-        userDao.updateUser(id, name, lastName, email, password);
+    public void updateUser(Long id, String name, String lastName, String email, String password, String[] roles) {
+        User user = getUser(id);
+        user.setName(name);
+        user.setLastname(lastName);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRoles(Arrays.stream(roles)
+                .map(roleService::findByName)
+                .collect(Collectors.toList()));
+        userDao.updateUser(user);
     }
 }
